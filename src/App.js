@@ -8,7 +8,12 @@ class App extends React.Component {
 
   state= {
     movies:[],
-    genre:[]
+    genre:[],
+    selectedFilter: "All Genres"
+  };
+
+  setFilter= (filter)=>{
+    this.setState({selectedFilter:filter});
   };
 
   componentDidMount(){
@@ -32,10 +37,10 @@ class App extends React.Component {
       <div>
           <Navbar />
           <div className="row">
-                <Filter genreData= {this.state.genre}/>
+                <Filter handleFilter= {this.setFilter}  selectedFilter={this.state.selectedFilter} genreData= {this.state.genre}/>
                 <div class="col-9 p-4">
                   <Search/>
-                  <Table moviesData= {this.state.movies}/>
+                  <Table moviesData= {this.state.movies} selectedFilter={this.state.selectedFilter} />
                 </div>
           </div>
       </div>

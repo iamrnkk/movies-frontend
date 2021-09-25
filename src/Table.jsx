@@ -1,6 +1,13 @@
 import Pagination from "./Pagination";
 
 const Table= (props)=>{
+
+    const allMovies= props.moviesData;
+    const currGenre= props.selectedFilter;
+    const filtereMovies= allMovies.filter((el)=>{
+        if(currGenre==="All Genres") return el;
+        else if(el.genre.name === currGenre) return el;
+    });
     return <> 
     <div class="row">
           <div class="col-10 table-responsive">
@@ -17,7 +24,7 @@ const Table= (props)=>{
               </thead>
               <tbody>
                 {
-                    props.moviesData.map((el)=>{
+                    filtereMovies.map((el)=>{
                         return <tr key={el._id}>
                             <td>{el.title}</td>
                             <td>{el.genre.name}</td>
