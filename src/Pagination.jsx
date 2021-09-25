@@ -1,13 +1,12 @@
-const Pagination= ()=>{
+const Pagination= (props)=>{
+
+    let arr=[]
+    for(let i=1; i<=props.numberOfPages; i++) arr.push(i);
     return <nav>
-    <ul class="pagination mt-4">
-      <li class="page-item">
-        <a class="page-link list-group-item list-group-item-dark " href="#">Previous</a>
-      </li>
-      <li class="page-item" ><a class="page-link list-group-item list-group-item-dark " href="#">1</a></li>
-      <li class="page-item"><a class="page-link list-group-item list-group-item-dark " href="#">2</a></li>
-      <li class="page-item"><a class="page-link list-group-item list-group-item-dark " href="#">3</a></li>
-      <li class="page-item"><a class="page-link list-group-item list-group-item-dark " href="#">Next</a></li>
+    <ul className="pagination mt-4">
+      {
+         arr.map((e)=>{ return <li key= {e} className="page-item" ><a onClick={()=>{props.selectPage(e)}} className={`page-link list-group-item list-group-item-dark ${props.currPage===e? "bg-light":""}`} href="/#">{e}</a></li>})
+      }
     </ul>
   </nav>
 }

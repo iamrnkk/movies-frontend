@@ -1,18 +1,19 @@
-const Search= ()=>{
+const Search= (props)=>{
     return <>
         
-        <div class="row">
-        <p class="">Showing 9 movies from the database</p>
-          <div class="col-4">
-            <div class="input-group flex-nowrap">
+        <div className="row">
+        <p className="">Showing {props.total} movies from the database</p>
+          <div className="col-4">
+            <div className="input-group flex-nowrap">
               <input
+                onChange= {(e)=>{props.updateSearch(e.currentTarget.value)}}
                 type="text"
-                class="form-control"
+                className="form-control"
                 placeholder="Search..."
               />
               
             </div>
-            <button type="button" class="btn btn-dark bg-gradient mt-4">New</button>
+            <button type="button" className="btn btn-dark bg-gradient mt-4">New</button>
           </div>
         </div>
     </>
