@@ -1,8 +1,12 @@
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import React from "react";
 import Navbar from "./Navbar";
 import Filter from "./Filter";
 import Search from "./Search";
 import Table from "./Table";
+import Login from "./Login";
+import Rentals from "./Rentals";
+import Customers from "./Customers";
 
 class App extends React.Component {
 
@@ -10,11 +14,24 @@ class App extends React.Component {
     movies:[],
     genre:[],
     selectedFilter: "All Genres",
-    search: ""
+    search: "",
+    total: 9
   };
 
   setFilter= (filter)=>{
     this.setState({selectedFilter:filter});
+    let t=0;
+    for(let movie of this.state.movies)
+    {
+      if(movie.genre.name === filter) t+=1;
+    }
+    if(filter=== "All Genres") t= this.state.movies.length;
+    
+    this.setState({total: t});
+  };
+
+  changeText= (moviesData)=>{
+    this.setState({movies: moviesData});
   };
 
   toggleLike=(id)=>{
@@ -27,8 +44,8 @@ class App extends React.Component {
 
   deleteMovie= (id)=>{
     const newMovies= this.state.movies.filter((el)=>el._id!==id);
-
     this.setState({movies: newMovies});
+    this.setFilter(this.state.selectedFilter);
   };
   
   updateSearch= (s)=>{
@@ -52,16 +69,25 @@ class App extends React.Component {
 
   render (){
     return (
-      <div>
-          <Navbar />
-          <div className="row">
-                <Filter handleFilter= {this.setFilter}  selectedFilter={this.state.selectedFilter} genreData= {this.state.genre}/>
-                <div className="col-9 p-4">
-                  <Search updateSearch={this.updateSearch} total= {this.state.movies.length}/>
-                  <Table search={this.state.search} deleteMovie= {this.deleteMovie} toggleLike={this.toggleLike} moviesData= {this.state.movies} selectedFilter={this.state.selectedFilter} />
+      <Router>
+        <div>
+            <Navbar />
+            <Switch>
+              <Route path="/rentals"> <Rentals/> </Route>
+              <Route path="/customers"> <Customers/></Route>
+              <Route path="/login"> <Login /> </Route>
+              <Route path="/">
+                <div className="row">
+                  <Filter handleFilter= {this.setFilter}  selectedFilter={this.state.selectedFilter} genreData= {this.state.genre}/>
+                  <div className="col-9 p-4">
+                    <Search updateSearch={this.updateSearch} total= {this.state.total}/>
+                    <Table changeText= {this.changeText}search={this.state.search} deleteMovie= {this.deleteMovie} toggleLike={this.toggleLike} moviesData= {this.state.movies} selectedFilter={this.state.selectedFilter} />
+                  </div>
                 </div>
-          </div>
-      </div>
+              </Route>
+            </Switch>
+        </div>
+      </Router>
     );
   }
 }

@@ -4,19 +4,18 @@ import Pagination from "./Pagination";
 class Table extends React.Component{
 
     state={
-        currPage: 1
+        currPage: 1,
+        movies: this.props.moviesData
     };
 
     selectPage=(page)=>{
         this.setState({currPage:page});
     }
     render(){
-        console.log(this.state.currPage);
         const allMovies= this.props.moviesData;
         const currGenre= this.props.selectedFilter;
         let filteredMovies= allMovies.filter((el)=>{
-            if(currGenre==="All Genres") return true;
-            else if(el.genre.name === currGenre) return true;
+            if(currGenre==="All Genres" || el.genre.name === currGenre ) return true;
             return false;
         });
 
